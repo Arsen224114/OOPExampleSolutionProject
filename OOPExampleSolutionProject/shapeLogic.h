@@ -1,41 +1,47 @@
 #include "Shape.h"
-#include <vector>
 #include <iostream>
 #include <limits>
 
 class ShapeLogic {
 public:
-    static void printAll(const vector<Shape*>& shapes) {
-        for (const auto& shape : shapes) {
-            cout << shape->info() << "\n";
+    // Вывод информации обо всех фигурах
+    static void printAll(Shape** shapes, int size) {
+        for (int i = 0; i < size; ++i) {
+            cout << shapes[i]->info() << "\n";
         }
     }
 
-    static Shape* findClosestToOrigin(const vector<Shape*>& shapes) {
-        Shape* closest = nullptr;
-        double minDist = numeric_limits<double>::max();
-        for (const auto& shape : shapes) {
-            double dist = shape->distanceToOrigin();
+    // Поиск фигуры, ближайшей к началу координат
+    static Shape* findClosestToOrigin(Shape** shapes, int size) {
+        if (size == 0) return nullptr;
+
+        Shape* closest = shapes[0];
+        double minDist = shapes[0]->distanceToOrigin();
+
+        for (int i = 1; i < size; ++i) {
+            double dist = shapes[i]->distanceToOrigin();
             if (dist < minDist) {
                 minDist = dist;
-                closest = shape;
+                closest = shapes[i];
             }
         }
         return closest;
     }
 
-    static double totalArea(const vector<Shape*>& shapes) {
-        double sum = 0;
-        for (const auto& shape : shapes) {
-            sum += shape->getArea();
+    // Суммарная площадь всех фигур
+    static double totalArea(Shape** shapes, int size) {
+        double sum = 0.0;
+        for (int i = 0; i < size; ++i) {
+            sum += shapes[i]->getArea();
         }
         return sum;
     }
 
-    static double totalPerimeter(const vector<Shape*>& shapes) {
-        double sum = 0;
-        for (const auto& shape : shapes) {
-            sum += shape->getPerimeter();
+    // Суммарный периметр всех фигур
+    static double totalPerimeter(Shape** shapes, int size) {
+        double sum = 0.0;
+        for (int i = 0; i < size; ++i) {
+            sum += shapes[i]->getPerimeter();
         }
         return sum;
     }

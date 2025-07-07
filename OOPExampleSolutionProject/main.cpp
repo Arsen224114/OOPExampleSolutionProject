@@ -6,20 +6,27 @@
 #include "ShapeLogic.h"
 
 int main() {
-   vector<Shape*> shapes;
+    const int size = 5;
+    Shape** shapes = new Shape * [size];
 
-    shapes.push_back(new Point(1, 2));
-    shapes.push_back(new Line(Point(0, 0), Point(3, 4)));
-    shapes.push_back(new Triangle(Point(0, 0), Point(4, 0), Point(0, 3)));
-    shapes.push_back(new Rectangle(Point(1, 1), 5, 2));
-    shapes.push_back(new Circle(Point(0, 0), 3));
+    shapes[0] = new Point(1, 2);
+    shapes[1] = new Line(Point(0, 0), Point(3, 4));
+    shapes[2] = new Triangle(Point(0, 0), Point(4, 0), Point(0, 3));
+    shapes[3] = new Rectangle(Point(1, 1), 5, 2);
+    shapes[4] = new Circle(Point(0, 0), 3);
 
-    ShapeLogic::printAll(shapes);
+    ShapeLogic::printAll(shapes, size);
 
-    cout << "\nClosest to origin: " << ShapeLogic::findClosestToOrigin(shapes)->info() << "\n";
-    cout << "Total area: " << ShapeLogic::totalArea(shapes) << "\n";
-    cout << "Total perimeter: " << ShapeLogic::totalPerimeter(shapes) << "\n";
+    Shape* closest = ShapeLogic::findClosestToOrigin(shapes, size);
+    cout << "\nClosest to origin: " << (closest ? closest->info() : "None") << "\n";
 
-    for (auto shape : shapes) delete shape;
+    cout << "Total area: " << ShapeLogic::totalArea(shapes, size) << "\n";
+    cout << "Total perimeter: " << ShapeLogic::totalPerimeter(shapes, size) << "\n";
+
+    for (int i = 0; i < size; ++i) {
+        delete shapes[i];
+    }
+    delete[] shapes;
+
     return 0;
 }
